@@ -15,15 +15,15 @@ This file is a script which calls the Flask API twice, once to submit an insuran
 request, and again to update their medical data.
 
 These are the operations that occur when each endpoint is called
-    POST /coverage/submit | Request Body: json object of medical data
-        1. create Customer, PolicyInstance, MedicalHistory, and MedicalCondition records in the database
-        2. Compute the predicted yearly insurance charges based on the customer's medical history
-        using the trained Linear Regression Model in zachcare.ml.insurance_model.py
-        3. Set the PolicyInstance.premium attribute to the calculated premium and for a medical history update
+- POST /coverage/submit | Request Body: json object of medical data
+    1. create Customer, PolicyInstance, MedicalHistory, and MedicalCondition records in the database
+    2. Compute the predicted yearly insurance charges based on the customer's medical history
+    using the trained Linear Regression Model in zachcare.ml.insurance_model.py
+    3. Set the PolicyInstance.premium attribute to the calculated premium and for a medical history update
 
-    POST /medical_history/<customer_id> | Request Body: json object of medical data
-        1. Update existing Medical History record for the customer based on the new fields
-        2. Recalculate Insurance Premium and set new value on the customer's policy instance.
+- POST /medical_history/<customer_id> | Request Body: json object of medical data
+    1. Update existing Medical History record for the customer based on the new fields
+    2. Recalculate Insurance Premium and set new value on the customer's policy instance.
 See this workflow in action in the screenshot below
 [Simulation](docs/Simulation.png)
 
