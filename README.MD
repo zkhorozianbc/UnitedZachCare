@@ -1,10 +1,10 @@
 ### UnitedZachCare
 Health Insurance Cloud Data Architecture for a mock use case of determining insurance premiums
 based on customer health data. The high-level components of this architecture are
-    - Flask API
-    - Postgres
-    - Amazon S3
-    - Python Client for simulating the business logic (simulate.py)
+- Flask API
+- Postgres
+- Amazon S3
+- Python Client for simulating the business logic (simulate.py)
 
 ### System Design
 [Entity Diagram](docs/System_Design.png)
@@ -37,6 +37,6 @@ The Database server is a Amazon RDS t2.medium instance. The database objects are
 The yearly charges predictive model is a linear regression model trained with scikit-learn on fake insurance charges data found here https://www.kaggle.com/datasets/mirichoi0218/insurance. The model is used by the flask API to update the policy instance premium for a customer when their health data changes.
 
 ### Further Work
-    - Incorporate simulated claims data
-    - Choose a different ML model that is able to incrementally learn from new data
-    - Better database constraints
+- Incorporate simulated claims data
+- Choose a different ML model that is able to incrementally learn from new data
+- Better database constraints
