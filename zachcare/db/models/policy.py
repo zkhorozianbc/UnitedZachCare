@@ -2,7 +2,9 @@ from sqlalchemy import ForeignKey, Enum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from zachcare.db.models.base import Base
 from typing import Literal, get_args
-PolicyName = Literal["HMO","PPO"]
+
+PolicyName = Literal["HMO", "PPO"]
+
 
 class Policy(Base):
     __tablename__ = "policy"
@@ -15,7 +17,10 @@ class Policy(Base):
             validate_string=True,
         )
     )
-    policy_instances: Mapped["PolicyInstance"] = relationship('PolicyInstance', back_populates='policy')
+    policy_instances: Mapped["PolicyInstance"] = relationship(
+        "PolicyInstance", back_populates="policy"
+    )
+
 
 class PolicyInstance(Base):
     __tablename__ = "policy_instance"
@@ -23,5 +28,7 @@ class PolicyInstance(Base):
     customer_id: Mapped[int] = mapped_column(ForeignKey("customer.id"))
     policy_id: Mapped[int] = mapped_column(ForeignKey("policy.id"))
     premium: Mapped[int]
-    customer: Mapped['Customer'] = relationship('Customer', back_populates='policy_instance')
-    policy: Mapped["Policy"] = relationship('Policy', back_populates='policy_instances')
+    customer: Mapped["Customer"] = relationship(
+        "Customer", back_populates="policy_instance"
+    )
+    policy: Mapped["Policy"] = relationship("Policy", back_populates="policy_instances")

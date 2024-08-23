@@ -14,11 +14,8 @@ def get_sqlalchemy_engine(database: str):
         database=database,
         password=env["RDS_PASSWORD"],
     )
-    engine = create_engine(url,execution_options={
-        "isolation_level": "AUTOCOMMIT"
-    })
+    engine = create_engine(url, execution_options={"isolation_level": "AUTOCOMMIT"})
     return engine
 
+
 Session = sessionmaker(get_sqlalchemy_engine("insurance"))
-
-

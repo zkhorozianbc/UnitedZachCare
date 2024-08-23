@@ -10,5 +10,5 @@ __all__ = [
     "MedicalHistory",
     "Policy",
     "PolicyInstance",
-    "PolicyName"
+    "PolicyName",
 ]

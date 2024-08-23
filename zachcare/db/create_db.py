@@ -7,16 +7,13 @@ from typing import get_args
 from zachcare.db.models import *
 from zachcare.db.models.policy import PolicyName
 
+
 def create_insurance_db():
     """Create postgres database in RDS instance"""
     engine = get_sqlalchemy_engine("postgres")
     with engine.connect() as conn:
-        conn.execute(
-            text(f"drop database if exists {env['RDS_DB']}")
-        )
-        conn.execute(
-            text(f"create database {env['RDS_DB']}")
-        )
+        conn.execute(text(f"drop database if exists {env['RDS_DB']}"))
+        conn.execute(text(f"create database {env['RDS_DB']}"))
 
 
 def create_insurance_tables():
@@ -31,11 +28,7 @@ def create_policies():
     """Insert mock data for insurance policies"""
     policies = []
     for policy_name in get_args(PolicyName):
-        policies.append(
-            Policy(
-                name=policy_name
-            )
-        )
+        policies.append(Policy(name=policy_name))
     with Session.begin() as session:
         session.add_all(policies)
 
