@@ -2,7 +2,7 @@
 Health Insurance Cloud Data Architecture for a mock use case of determining insurance premiums
 based on customer health data. The high-level components of this architecture are
 - Flask API
-- Postgres
+- Amazon RDS Postgres
 - Amazon S3
 - Python Client for simulating the business logic (simulate.py)
 
