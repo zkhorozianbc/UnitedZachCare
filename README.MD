@@ -29,13 +29,14 @@ See this workflow in action in the screenshot below
 
 
 ### API Design
-Flask API, routes can be found at zachcare.api.routes.py. The API is hosted on Amazon EC2 and is properly set up to connect to the Amazon RDS Postgres instance
+Flask API, routes can be found at zachcare.api.routes.py. The API is hosted on Amazon EC2 and is properly set up to connect to the Amazon RDS Postgres instance. All API code can be found in the zachcare.api package
 
 ### Database Design and ORM
-The Database server is a Amazon RDS t2.medium instance. The database objects are created with SQLAlchemy.
+The Database server is a Amazon RDS t2.medium instance. The database objects are created with SQLAlchemy. All DB utility code can be found in the zachcare.db package
 
 ### Machine Learning Model
-The yearly charges predictive model is a linear regression model trained with scikit-learn on fake insurance charges data found here https://www.kaggle.com/datasets/mirichoi0218/insurance. The model is used by the flask API to update the policy instance premium for a customer when their health data changes.
+The yearly charges predictive model is a linear regression model trained with scikit-learn on fake insurance charges data found here https://www.kaggle.com/datasets/mirichoi0218/insurance. The model is used by the flask API to update the policy instance premium for a customer when their health data changes. All ML code can be found in the zachcare.ml package
+
 
 ### Further Work
 - Incorporate simulated claims data
