@@ -11,14 +11,7 @@ from zachcare.ml.insurance_model import get_simulation_data
 
 def simulate_one():
     """Simulates a customer requesting coverage, and then updating their medical history.
-    The operations on the backend that will occur for a coverage request are
-        1. create Customer, PolicyInstance, MedicalHistory, and MedicalCondition records in the database
-        2. Compute the predicted yearly insurance charges based on the customer's medical history
-        using the trained Linear Regression Model in zachcare.ml.insurance_model.py
-        3. Set the PolicyInstance.premium attribute to the calculated premium
-    and for a medical history update
-        1. Update existing Medical History record for the customer based on the new fields
-        2. Recalculate Insurance Premium and set new value on the customer's policy instance.
+    See README.MD for more details.
     """
     api_endpoint = env["API_ENDPOINT"]
     df = get_simulation_data().head(1)
