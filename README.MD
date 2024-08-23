@@ -16,7 +16,7 @@ request, and again to update their medical data.
 
 These are the operations that occur when each endpoint is called
 - POST /coverage/submit | Request Body: json object of medical data
-    1. create Customer, PolicyInstance, MedicalHistory, and MedicalCondition records in the database
+    1. Create Customer, PolicyInstance, MedicalHistory and MedicalCondition records in the database using SQLAlchemy
     2. Compute the predicted yearly insurance charges based on the customer's medical history
     using the trained Linear Regression Model in zachcare.ml.insurance_model.py
     3. Set the PolicyInstance.premium attribute to the calculated premium and for a medical history update
