@@ -13,7 +13,8 @@ based on customer health data. The high-level components of this architecture ar
 This entire architecture is demonstrated by running simulate.py.
 This file is a script which calls the Flask API twice, once to submit an insurance coverage
 request, and again to update their medical data.
-    These are the operations that occur when each endpoint is called
+
+These are the operations that occur when each endpoint is called
     POST /coverage/submit | Request Body: json object of medical data
         1. create Customer, PolicyInstance, MedicalHistory, and MedicalCondition records in the database
         2. Compute the predicted yearly insurance charges based on the customer's medical history
