@@ -20,6 +20,7 @@ These are the operations that occur when each endpoint is called
     2. Compute the predicted yearly insurance charges based on the customer's medical history
     using the trained Linear Regression Model in zachcare.ml.insurance_model.py
     3. Set the PolicyInstance.premium attribute to the calculated premium 
+
 And for a medical history update
 
 - POST /medical_history/<customer_id> | Request Body: json object of medical data
