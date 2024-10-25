@@ -21,8 +21,6 @@ These are the operations that occur when each endpoint is called
     using the trained Linear Regression Model in zachcare.ml.insurance_model.py
     3. Set the PolicyInstance.premium attribute to the calculated premium 
 
-And for a medical history update
-
 - POST /medical_history/<customer_id> | Request Body: json object of medical data
     1. Update existing Medical History record for the customer based on the new fields
     2. Recalculate Insurance Premium and set new value on the customer's policy instance.
