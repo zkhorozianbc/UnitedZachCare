@@ -1,45 +1,41 @@
+*Selected project from NYU Graduate Database Systems (CSCI-GA.2433)*
+
 # UnitedZachCare
 
 Cloud-native health insurance platform that calculates risk-adjusted premiums from customer medical data using a trained ML model, backed by a RESTful API, relational database, and object storage on AWS.
+
+## System Design
 
 ![System Design](docs/System_Design.png)
 
 ## Architecture
 
-| Component | Technology | Purpose |
-|-----------|-----------|---------|
-| API | Flask on EC2 | REST endpoints for coverage submission and medical history updates |
-| Database | Amazon RDS (PostgreSQL) | Persistent storage for customers, policies, and medical records |
-| ORM | SQLAlchemy | Data modeling and migrations (`zachcare.db`) |
-| ML Model | scikit-learn (Linear Regression) | Premium prediction based on medical history (`zachcare.ml`) |
-| Storage | Amazon S3 | Static asset and model artifact storage |
+| Layer | Technology | Role |
+|-------|-----------|------|
+| API | Flask / EC2 | REST endpoints for coverage and medical history |
+| Database | Amazon RDS (PostgreSQL) | Customers, policies, and medical records |
+| ML | scikit-learn | Premium prediction via linear regression |
+| Storage | Amazon S3 | Model artifacts and static assets |
 
-## API
+## API Reference
 
-**`POST /coverage/submit`** — Submit a new coverage request
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/coverage/submit` | POST | Creates customer, policy, and medical records; returns a model-predicted premium |
+| `/medical_history/<customer_id>` | POST | Updates medical history and recalculates the premium |
 
-Accepts a JSON payload of medical data. Creates `Customer`, `PolicyInstance`, `MedicalHistory`, and `MedicalCondition` records, then runs the premium prediction model and sets the calculated premium on the policy.
-
-**`POST /medical_history/<customer_id>`** — Update medical history
-
-Accepts updated medical data for an existing customer. Updates the medical history record and recalculates the premium.
-
-Routes are defined in `zachcare.api.routes`.
+Routes: `zachcare.api.routes`
 
 ## ML Model
 
-The premium prediction model is a linear regression trained on the [Kaggle Insurance Charges](https://www.kaggle.com/datasets/mirichoi0218/insurance) dataset. It is invoked at coverage submission and on any medical history update to keep premiums current.
+Linear regression trained on the [Kaggle Insurance Charges](https://www.kaggle.com/datasets/mirichoi0218/insurance) dataset. Invoked on every coverage submission and medical history update to keep premiums current.
 
 Implementation: `zachcare.ml.insurance_model`
 
-## Running the Simulation
+## Quick Start
 
-`simulate.py` demonstrates the full workflow end-to-end — submitting a coverage request, then updating the customer's medical data — and prints the API responses at each step.
+```bash
+python simulate.py
+```
 
-![Simulation Output](docs/Simulation.png)
-
-## Roadmap
-
-- Incorporate simulated claims data pipeline
-- Evaluate online-learning models for incremental retraining
-- Tighten database constraints and add input validation
+Runs the full workflow end-to-end: submits a coverage request, updates the customer's medical data, and prints API responses at each step.
