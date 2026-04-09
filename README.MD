@@ -1,44 +1,45 @@
-### [UnitedZachCare](https://github.com/zkhorozianbc/UnitedZachCare)
-Health Insurance Cloud Data Architecture for a mock use case of determining insurance premiums
-based on customer health data. The high-level components of this architecture are
-- Flask API
-- Amazon RDS Postgres
-- Amazon S3
-- Python Client for simulating the business logic (simulate.py)
+# UnitedZachCare
 
-### System Design
-[Entity Diagram](docs/System_Design.png)
+Cloud-native health insurance platform that calculates risk-adjusted premiums from customer medical data using a trained ML model, backed by a RESTful API, relational database, and object storage on AWS.
 
-### Python Client
-This entire architecture is demonstrated by running simulate.py.
-This file is a script which calls the Flask API twice, once to submit an insurance coverage
-request, and again to update their medical data.
+![System Design](docs/System_Design.png)
 
-These are the operations that occur when each endpoint is called
-- POST /coverage/submit | Request Body: json object of medical data
-    1. Create Customer, PolicyInstance, MedicalHistory and MedicalCondition records in the database using SQLAlchemy
-    2. Compute the predicted yearly insurance charges based on the customer's medical history
-    using the trained Linear Regression Model in zachcare.ml.insurance_model.py
-    3. Set the PolicyInstance.premium attribute to the calculated premium 
+## Architecture
 
-- POST /medical_history/<customer_id> | Request Body: json object of medical data
-    1. Update existing Medical History record for the customer based on the new fields
-    2. Recalculate Insurance Premium and set new value on the customer's policy instance.
-See this workflow in action in the screenshot below
-[Simulation](docs/Simulation.png)
+| Component | Technology | Purpose |
+|-----------|-----------|---------|
+| API | Flask on EC2 | REST endpoints for coverage submission and medical history updates |
+| Database | Amazon RDS (PostgreSQL) | Persistent storage for customers, policies, and medical records |
+| ORM | SQLAlchemy | Data modeling and migrations (`zachcare.db`) |
+| ML Model | scikit-learn (Linear Regression) | Premium prediction based on medical history (`zachcare.ml`) |
+| Storage | Amazon S3 | Static asset and model artifact storage |
 
+## API
 
-### API Design
-Flask API, routes can be found at zachcare.api.routes.py. The API is hosted on Amazon EC2 and is properly set up to connect to the Amazon RDS Postgres instance. All API code can be found in the zachcare.api package
+**`POST /coverage/submit`** — Submit a new coverage request
 
-### Database Design and ORM
-The Database server is a Amazon RDS t2.medium instance. The database objects are created with SQLAlchemy. All DB utility code can be found in the zachcare.db package
+Accepts a JSON payload of medical data. Creates `Customer`, `PolicyInstance`, `MedicalHistory`, and `MedicalCondition` records, then runs the premium prediction model and sets the calculated premium on the policy.
 
-### Machine Learning Model
-The yearly charges predictive model is a linear regression model trained with scikit-learn on fake insurance charges data found here https://www.kaggle.com/datasets/mirichoi0218/insurance. The model is used by the flask API to update the policy instance premium for a customer when their health data changes. All ML code can be found in the zachcare.ml package
+**`POST /medical_history/<customer_id>`** — Update medical history
 
+Accepts updated medical data for an existing customer. Updates the medical history record and recalculates the premium.
 
-### Further Work
-- Incorporate simulated claims data
-- Choose a different ML model that is able to incrementally learn from new data
-- Better database constraints
+Routes are defined in `zachcare.api.routes`.
+
+## ML Model
+
+The premium prediction model is a linear regression trained on the [Kaggle Insurance Charges](https://www.kaggle.com/datasets/mirichoi0218/insurance) dataset. It is invoked at coverage submission and on any medical history update to keep premiums current.
+
+Implementation: `zachcare.ml.insurance_model`
+
+## Running the Simulation
+
+`simulate.py` demonstrates the full workflow end-to-end — submitting a coverage request, then updating the customer's medical data — and prints the API responses at each step.
+
+![Simulation Output](docs/Simulation.png)
+
+## Roadmap
+
+- Incorporate simulated claims data pipeline
+- Evaluate online-learning models for incremental retraining
+- Tighten database constraints and add input validation
